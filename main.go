@@ -144,7 +144,7 @@ func main() {
 	router.Handle(pat.New("/*"), samlSP.RequireAccount(buffer))
 
 	srv := &http.Server{
-		Addr:    "localhost:8080",
+		Addr:    ":8080",
 		Handler: router,
 		// This breaks streaming requests
 		ReadTimeout: 45 * time.Second,
@@ -153,7 +153,7 @@ func main() {
 		IdleTimeout:  120 * time.Second,
 	}
 
-	if *C.HttpsKey == "" || *C.HttpsCertificate == "" {
+	if (*C.HttpsKey) == "" || (*C.HttpsCertificate) == "" {
 		log.Fatal(srv.ListenAndServe())
 	} else {
 		log.Fatal(srv.ListenAndServeTLS(*C.HttpsCertificate, *C.HttpsKey))
